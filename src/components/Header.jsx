@@ -1,4 +1,5 @@
 import { Button, AppBar, Box, Toolbar, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 
 function Header() {
   return (
@@ -10,8 +11,18 @@ function Header() {
               DevJob
             </Typography>
             <Button color="inherit">로그인</Button>
+
             <Button color="inherit" variant="outlined">
-              채용공고올리기
+              <Link
+                to="/recruit"
+                style={{
+                  color: "inherit",
+                  textDecoration: "none",
+                  underliine: "none",
+                }}
+              >
+                채용공고올리기
+              </Link>
             </Button>
           </Toolbar>
         </AppBar>

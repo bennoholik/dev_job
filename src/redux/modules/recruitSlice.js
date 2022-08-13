@@ -33,9 +33,17 @@ const initialState = {
 export const recruitSlice = createSlice({
   name: "recruits",
   initialState,
-  reducers: {},
+  reducers: {
+    addRecruit(state, action) {
+      console.log(action.payload);
+      return {
+        ...state,
+        recruits: [...state.recruits, action.payload],
+      };
+    },
+  },
   extraReducers: {},
 });
 
-export const {} = recruitSlice.actions;
+export const { addRecruit } = recruitSlice.actions;
 export default recruitSlice.reducer;
