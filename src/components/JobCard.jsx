@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 function JobCard({ rec, i }) {
   return (
     <Card key={rec.id}>
-      <CardActionArea href="#">
+      <CardActionArea href={`/${rec.id}`}>
         <CardContent sx={{ p: "20px" }}>
           <Typography gutterBottom variant="h5" component="div">
             {rec.jobTitle}

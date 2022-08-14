@@ -31,6 +31,7 @@ export const PostAdd = () => {
 
   const onSubmitRecruit = () => {
     dispatch(addRecruit(postData));
+
     setTitle("");
     setDesc("");
     let empty = [];
