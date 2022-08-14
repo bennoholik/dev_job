@@ -10,13 +10,29 @@ import {
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import Comment from "./Comment";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getRecruitById } from "../redux/modules/recruitSlice";
 
 function JobDetail() {
+  const { id } = useParams();
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getRecruitById(Number(id)));
+  }, [dispatch, id]);
+
+  const recruit = useSelector((state) => state.recruits.rec);
+
+  console.log(recruit);
+
   return (
     <Card sx={{ maxWidth: 800 }}>
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          [토스] - 프론트 엔드 개발자 채용
+          {recruit.jobTitle}
         </Typography>
         <Grid container>
           <Grid item xs="1.5">
@@ -29,27 +45,19 @@ function JobDetail() {
           <Grid>
             {" "}
             <Typography gutterBottom variant="h6" component="div">
-              비바리퍼블리카
+              {recruit.companyName}
             </Typography>
           </Grid>
         </Grid>
 
         <br />
-        <Typography>2022/2/18</Typography>
+        <Typography>{recruit.createdAt}</Typography>
         <br />
         <Chip label="React" color="primary" />
         <br />
         <br />
         <Typography variant="body1" color="text.secondary">
-          토스(비바리퍼블리카)는 2015년 2월 공인인증서 없이 쉽고 빠르게 송금할
-          수 있는 간편 송금 서비스 ‘토스’를 선보인 이래, 보험과 결제, 증권, 은행
-          부문에서 여러 계열사를 출범시키며 국내 대표 핀테크 기업으로
-          성장했습니다. 대한민국 금융 혁신을 선도하고 있는 토스에는 각 분야 최고
-          수준의 역량을 갖춘 인재들이 모여 자율과 책임의 원칙 아래 상호 신뢰의
-          문화에서 일하고 있습니다. 어렵고 복잡한 금융 경험을 혁신해 가슴 뛰는
-          변화를 함께 만들어 나가며, 최고의 동료들과 함께 성장할 수 있는 곳에서
-          일하고 싶지 않으신가요? 대한민국 금융 혁신을 위해 새로운 도전을 함께
-          할 멋진 동료를 기다립니다.
+          {recruit.description}
         </Typography>
       </CardContent>
 

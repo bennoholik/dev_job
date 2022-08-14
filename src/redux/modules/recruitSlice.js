@@ -19,23 +19,39 @@ const initialState = {
       createdAt: "2022-07-25T00:13:16.136823",
       id: 2,
       comapanyName: "toss",
-      jobTitle: "[토스] - 프론트엔드 개발자 채용",
-      techStackList: ["React"],
-      description:
-        " 토스(비바리퍼블리카)는 2015년 2월 공인인증서 없이 쉽고 빠르게 송금할수 있는 간편 송금 서비스",
+      jobTitle: "[카카오] - 백엔드 개발자 채용",
+      techStackList: ["JAVA"],
+      description: " 카카오에 오신걸 환영합니다",
     },
   ],
 
   isLoading: false,
   error: null,
+  rec: {},
 };
 
 export const recruitSlice = createSlice({
   name: "recruits",
   initialState,
-  reducers: {},
+  reducers: {
+    addRecruit(state, action) {
+      console.log(action.payload);
+      return {
+        ...state,
+        recruits: [...state.recruits, action.payload],
+      };
+    },
+    getRecruitById(state, action) {
+      return {
+        ...state,
+        rec: state.recruits.find((rec) => {
+          return rec.id === action.payload;
+        }),
+      };
+    },
+  },
   extraReducers: {},
 });
 
-export const {} = recruitSlice.actions;
+export const { addRecruit, getRecruitById } = recruitSlice.actions;
 export default recruitSlice.reducer;
