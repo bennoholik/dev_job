@@ -13,6 +13,7 @@ const Router = () => {
         <Route path="/" element={<Mainpage />}>
           <Route path=":id" element={<JobDetail />} />
         </Route>
+
         <Route path="recruit" element={<PostAdd />} />
         <Route path="login" element={<LoginForm />} />
         <Route path="signup" element={<SignupForm />} />
