@@ -4,20 +4,39 @@ import {
   CardContent,
   Typography,
   Chip,
+  Avatar,
+  Grid,
 } from "@mui/material";
 import { useSelector } from "react-redux";
+import { Link as RouterLink } from "react-router-dom";
 
 function JobCard({ rec, i }) {
   return (
     <Card key={rec.id}>
-      <CardActionArea href={`/${rec.id}`}>
+      <CardActionArea component={RouterLink} to={`/${rec.id}`}>
         <CardContent sx={{ p: "20px" }}>
           <Typography gutterBottom variant="h5" component="div">
-            {rec.jobTitle}
+            <Grid container>
+              <Grid item xs="1">
+                <Avatar
+                  alt="toss"
+                  src="https://seeklogo.com/images/K/kakao-talk-logo-7542043DFC-seeklogo.com.png"
+                />{" "}
+              </Grid>
+              <Grid>
+                {" "}
+                <Typography gutterBottom variant="h6" component="div">
+                  {rec.jobTitle}
+                </Typography>
+              </Grid>
+            </Grid>
           </Typography>
           <br />
 
-          <Chip label={rec.techStackList[0]} color="primary" />
+          {rec.techStackList.map((s, i) => (
+            <Chip label={s} color="primary" sx={{ m: "4px" }} />
+          ))}
+
           <br />
           <br />
           <Typography

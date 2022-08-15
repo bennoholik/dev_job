@@ -1,10 +1,27 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getRecruitsData } from "../redux/modules/recruitSlice";
 import JobCard from "./JobCard";
 
 function JobList() {
-  const { recruits } = useSelector((state) => state.recruits);
-  console.log(recruits);
+  const dispatch = useDispatch();
+  const { isLoading, error, recruits } = useSelector((state) => state.recruits);
+
+  useEffect(() => {
+    dispatch(getRecruitsData());
+  }, [dispatch]);
+
+  if (isLoading) {
+    return (
+      <div>
+        <h1>로딩 중....</h1>
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div>{error.message}</div>;
+  }
 
   return (
     <>

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { TextField, MenuItem, Stack } from "@mui/material";
 import Typography from "@mui/material/Typography";
@@ -22,12 +22,9 @@ export const PostAdd = () => {
 
   const dispatch = useDispatch();
 
-  const postData = {
-    createdAt: date,
-    jobTitle: title,
-    techStackList: stack,
-    description: desc,
-  };
+  const postData = { date, title, stack, desc };
+
+  let navigate = useNavigate();
 
   const onSubmitRecruit = () => {
     dispatch(addRecruit(postData));
@@ -36,6 +33,8 @@ export const PostAdd = () => {
     setDesc("");
     let empty = [];
     setStack(empty);
+    let path = `/`;
+    navigate(path);
   };
 
   const addStack = (event) => {
