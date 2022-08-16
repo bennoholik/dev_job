@@ -1,41 +1,70 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import axios from "axios";
 
 let initialID = 1;
 
 //초기 상태값
 const initialState = {
-  recruits: [
-    {
-      createdAt: "2022-07-25T00:13:16.136823",
-      id: 1,
-      comapanyName: "toss",
-      jobTitle: "[토스] - 프론트엔드 개발자 채용",
-      techStackList: ["React"],
-      description:
-        " 토스(비바리퍼블리카)는 2015년 2월 공인인증서 없이 쉽고 빠르게 송금할수 있는 간편 송금 서비스",
-    },
-    {
-      createdAt: "2022-07-25T00:13:16.136823",
-      id: 2,
-      comapanyName: "toss",
-      jobTitle: "[토스] - 프론트엔드 개발자 채용",
-      techStackList: ["React"],
-      description:
-        " 토스(비바리퍼블리카)는 2015년 2월 공인인증서 없이 쉽고 빠르게 송금할수 있는 간편 송금 서비스",
-    },
-  ],
-
+  recruits: [],
   isLoading: false,
   error: null,
+  rec: {},
+  isFinish: false,
 };
+
+export const getRecruitsData = createAsyncThunk(
+  "recruits/getRecruitsData",
+  async (payload, thunkAPI) => {
+    try {
+      const data = await axios.get("http://localhost:3001/posts");
+      return thunkAPI.fulfillWithValue(data.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const addRecruit = createAsyncThunk(
+  "recruits/addRecruit",
+  async (payload, thunkAPI) => {
+    try {
+      const data = await axios.post("http://localhost:3001/posts", {
+        createdAt: payload.date,
+        jobTitle: payload.title,
+        techStackList: payload.stack,
+        description: payload.desc,
+      });
+      return thunkAPI.fulfillWithValue(data.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 
 export const recruitSlice = createSlice({
   name: "recruits",
   initialState,
   reducers: {},
-  extraReducers: {},
+  extraReducers: {
+    [getRecruitsData.pending]: (state) => {
+      state.isFinish = false;
+      state.isLoading = true;
+    },
+    [getRecruitsData.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.isFinish = true;
+      state.recruits = action.payload;
+    },
+    [getRecruitsData.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.isFinish = true;
+      state.error = action.payload;
+    },
+    [addRecruit.fulfilled]: (state, action) => {
+      state.recruits.push(action.payload);
+    },
+  },
 });
 
-export const {} = recruitSlice.actions;
+export const { getRecruitById } = recruitSlice.actions;
 export default recruitSlice.reducer;
