@@ -15,12 +15,14 @@ import { addRecruit } from "../redux/modules/recruitSlice";
 export const PostAdd = () => {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
-  const [stack, setStack] = useState([]);
+  const [stackList, setStackList] = useState([]);
 
   const now = Date.now();
   const date = new Date(now).toISOString();
 
   const dispatch = useDispatch();
+
+  const stack = { stackList };
 
   const postData = { date, title, stack, desc };
 
@@ -32,22 +34,22 @@ export const PostAdd = () => {
     setTitle("");
     setDesc("");
     let empty = [];
-    setStack(empty);
+    setStackList(empty);
     let path = `/`;
     navigate(path);
   };
 
   const addStack = (event) => {
-    let copy = [...stack];
+    let copy = [...stackList];
     copy.push(event.target.value);
-    setStack(copy);
+    setStackList(copy);
   };
 
   const handleDelete = (i) => {
     console.log(i);
-    let copy = [...stack];
+    let copy = [...stackList];
     copy.splice(i, 1);
-    setStack(copy);
+    setStackList(copy);
   };
 
   return (
@@ -98,7 +100,7 @@ export const PostAdd = () => {
           fullWidth
           label="필수스텍"
           select
-          value={stack}
+          value={stackList}
           onChange={addStack}
           color="secondary"
           helperText="필수스텍 하나 이상 선택하세요."
@@ -115,7 +117,7 @@ export const PostAdd = () => {
           <MenuItem value="node.js">node.js</MenuItem>
         </TextField>
         <Stack direction="row" spacing={1} sx={{ mb: 3 }}>
-          {stack.map((s, i) => (
+          {stackList.map((s, i) => (
             <Chip
               label={s}
               onDelete={() => {

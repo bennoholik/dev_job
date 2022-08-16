@@ -33,7 +33,7 @@ function JobCard({ rec, i }) {
           </Typography>
           <br />
 
-          {rec.techStackList.map((s, i) => (
+          {rec.techStackList.stackList.map((s, i) => (
             <Chip label={s} color="primary" sx={{ m: "4px" }} />
           ))}
 

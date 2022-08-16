@@ -33,8 +33,26 @@ export const addRecruit = createAsyncThunk(
         jobTitle: payload.title,
         techStackList: payload.stack,
         description: payload.desc,
+        commentList: [],
       });
       return thunkAPI.fulfillWithValue(data.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const sendComment = createAsyncThunk(
+  "recruits/sendComment",
+  async (payload, thunkAPI) => {
+    try {
+      const data = await axios.patch(
+        `http://localhost:3001/posts/${payload.id}`,
+        {
+          commentList: [{ content: payload.comment }],
+        }
+      );
+      return thunkAPI.fulfillWithValue({ id: payload.id, response: data.data });
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -62,6 +80,22 @@ export const recruitSlice = createSlice({
     },
     [addRecruit.fulfilled]: (state, action) => {
       state.recruits.push(action.payload);
+    },
+    [sendComment.fulfilled]: (state, action) => {
+      console.log(action.payload);
+      return {
+        ...state,
+        recruits: state.recruits.map((r) =>
+          r.id === action.payload.id
+            ? {
+                ...r,
+                commentList: [
+                  { content: action.payload.commentList[0].content },
+                ],
+              }
+            : r
+        ),
+      };
     },
   },
 });
