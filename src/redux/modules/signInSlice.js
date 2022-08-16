@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-
+import { setAccessToken } from '../../storage/Cookie';
 
 //초기 상태값
 const initialState = {
@@ -36,7 +36,12 @@ export const __signIn = createAsyncThunk(
         // email.username,
         // password
       }, {headers})
-      console.log(data)
+      setAccessToken(data.headers.authorization);
+      axios.defaults.headers.common[
+        "Authorization"
+    ] = `${data.headers.authorization}`;
+    
+    console.log(data.headers.authorization)
       return thunkAPI.fulfillWithValue(data.data);
 
     } catch (error) {
