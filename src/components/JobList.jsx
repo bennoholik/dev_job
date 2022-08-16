@@ -23,6 +23,8 @@ function JobList() {
     return <div>{error.message}</div>;
   }
 
+  console.log(recruits);
+
   return (
     <>
       {recruits.map((rec, i) => (

@@ -1,55 +1,48 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { setAccessToken } from '../../storage/Cookie';
+import { setAccessToken, setUserData } from "../../storage/Cookie";
 
 //초기 상태값
 const initialState = {
-    
-    username:"",
-    password:"",
-    passwordConfirm:"",
-    companyName:"",
-    authority:"",
-    profileImageUrl:"",
-    websiteUrl:""
-   
+  userinfo: {},
 };
 
 const headers = {
-  'Content-type': 'application/json; charset=UTF-8',
-  'Accept': '*/*'
-}
-axios.defaults.headers.post = null
+  "Content-type": "application/json; charset=UTF-8",
+  Accept: "*/*",
+};
+axios.defaults.headers.post = null;
 
 export const __signIn = createAsyncThunk(
   "signIn/__signIn",
   async (payload, thunkAPI) => {
+    console.log(payload);
     try {
       // "http://localhost:3001/posts"
       // "http://hosung.shop/api/v1/login"
       //"https://www.reqres.in/api/login"
-      const data = await axios.post("http://hosung.shop/api/v1/login",
-      {
-
-        username : payload.username,
-        password : payload.password,
-        // email.username,
-        // password
-      }, {headers})
+      const data = await axios.post(
+        "http://hosung.shop/api/v1/login",
+        {
+          username: payload.username,
+          password: payload.password,
+        },
+        { headers }
+      );
       setAccessToken(data.headers.authorization);
+      setUserData(data.data.data);
       axios.defaults.headers.common[
         "Authorization"
-    ] = `${data.headers.authorization}`;
-    
-    console.log(data.headers.authorization)
-      return thunkAPI.fulfillWithValue(data.data);
+      ] = `${data.headers.authorization}`;
 
+      return thunkAPI.fulfillWithValue(data.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
   }
 );
 
+//
 export const signInSlice = createSlice({
   name: "signIn",
   initialState,
@@ -60,14 +53,18 @@ export const signInSlice = createSlice({
     },
     [__signIn.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.posts = [...state.posts, action.payload];
+      state.userinfo = action.payload;
+      console.log("user name: " + action.payload.username);
     },
     [__signIn.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
+      alert(action.payload.response.data.error.message);
     },
   },
 });
+
+//여기도 필요없을것 같습니다.
 
 export const {} = signInSlice.actions;
 export default signInSlice.reducer;

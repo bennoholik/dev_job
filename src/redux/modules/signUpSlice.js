@@ -1,25 +1,22 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-
 //초기 상태값
 const initialState = {
-    
-    username:"",
-    password:"",
-    passwordConfirm:"",
-    companyName:"",
-    authority:"",
-    profileImageUrl:"",
-    websiteUrl:""
-   
+  username: "",
+  password: "",
+  passwordConfirm: "",
+  companyName: "",
+  authority: "",
+  profileImageUrl: "",
+  websiteUrl: "",
 };
 
 const headers = {
-  'Content-type': 'application/json; charset=UTF-8',
-  'Accept': '*/*'
-}
-axios.defaults.headers.post = null
+  "Content-type": "application/json; charset=UTF-8",
+  Accept: "*/*",
+};
+axios.defaults.headers.post = null;
 
 export const __signUp = createAsyncThunk(
   "signUp/__signUp",
@@ -27,21 +24,24 @@ export const __signUp = createAsyncThunk(
     try {
       // "http://localhost:3001/posts"
       // "http://hosung.shop/api/v1/signup"
-      const data = await axios.post("http://hosung.shop/api/v1/signup",
-      {
+      console.log(payload);
+      const data = await axios.post(
+        "http://hosung.shop/api/v1/signup",
+        {
+          // "username":"hanghae5",
+          // "password":"hanghae5",
+          // "passwordConfirm":"hanghae5",
+          // "companyName":"toss",
+          // "authority":"구인자",
+          profileImageUrl: payload.profileImageUrl,
 
-        // "username":"hanghae5",
-        // "password":"hanghae5",
-        // "passwordConfirm":"hanghae5",
-        // "companyName":"toss",
-        // "authority":"구인자",
-        // "profileImageUrl":"profileImageUrl",
-        // "websiteUrl":""
-        username : payload.username,
-        password : payload.password,
-        passwordConfirm : payload.passwordConfirm,
-        authority: "채용자"
-      }, {headers})
+          username: payload.username,
+          password: payload.password,
+          passwordConfirm: payload.passwordConfirm,
+          authority: "채용자",
+        },
+        { headers }
+      );
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -67,6 +67,8 @@ export const signUpSlice = createSlice({
     },
   },
 });
+
+//이부분 필요없을듯 합니다.
 
 export const {} = signUpSlice.actions;
 export default signUpSlice.reducer;

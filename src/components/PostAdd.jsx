@@ -35,8 +35,7 @@ export const PostAdd = () => {
     setDesc("");
     let empty = [];
     setStackList(empty);
-    let path = `/`;
-    navigate(path);
+    window.location.href = "/";
   };
 
   const addStack = (event) => {
@@ -51,7 +50,6 @@ export const PostAdd = () => {
     copy.splice(i, 1);
     setStackList(copy);
   };
-
 
   return (
     <StBox>
