@@ -26,13 +26,13 @@ export const __signIn = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       // "http://localhost:3001/posts"
-      // "http://hosung.shop/api/v1/signip"
+      // "http://hosung.shop/api/v1/login"
       //"https://www.reqres.in/api/login"
       const data = await axios.post("http://hosung.shop/api/v1/login",
       {
 
-        username : "test1234",
-        password : "test1234",
+        username : payload.username,
+        password : payload.password,
         // email.username,
         // password
       }, {headers})
