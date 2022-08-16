@@ -30,7 +30,7 @@ export const LoginForm = () => {
       dispatch(
         __signIn({
           username,
-          password
+          password,
         })
       )
     }catch(err) {
