@@ -52,6 +52,7 @@ export const PostAdd = () => {
     setStackList(copy);
   };
 
+
   return (
     <StBox>
       <Box
