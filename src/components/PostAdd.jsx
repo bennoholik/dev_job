@@ -50,6 +50,7 @@ export const PostAdd = () => {
     setStack(copy);
   };
 
+
   return (
     <StBox>
       <Box
