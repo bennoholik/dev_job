@@ -9,6 +9,15 @@ import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 
 export const LoginForm = () => {
+  
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [ email , setEmail ] = useState();
+  const [ password , setPassword ] = useState();
+
+
+
+
 
   return (
     <StBox>
@@ -27,11 +36,15 @@ export const LoginForm = () => {
         <Typography component="h1" variant="h5">
         로그인
         </Typography>
-        <TextField margin="normal" label="User ID" name="userId" required fullWidth  sx={{mt:5 , mb:3}}/>
-        <TextField margin="normal" label="Password" name="pw" type="password" required fullWidth />
+        <TextField margin="normal" label="User ID" name="userId" onChange={(event) => {
+            setEmail(event.target.value)
+        }} required fullWidth sx={{mt:5 , mb:3}}/>
+        <TextField margin="normal" label="Password" name="pw" type="password" onChange={(event) => {
+            setPassword(event.target.value)
+        }} required fullWidth />
         <ButtonGroup fullWidth sx={{mt:5}}>  
           <Button type="submit" variant='contained' >회원가입</Button>
-          <Button type="submit" variant='outlined' >로그인</Button>
+          <Button type="submit" variant='outlined' onClick={}>로그인</Button>
         </ButtonGroup>
         </Box>
     </StBox>

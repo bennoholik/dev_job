@@ -14,7 +14,7 @@ import { useState } from 'react';
 export const LoginForm = () => {
     const [stack, setStack] = useState([])
     console.log({stack})
-    // 전개전산자
+
     const handleChange = (event) => {
         // let copy = [...stack]
         // copy.push(event.target.value)
