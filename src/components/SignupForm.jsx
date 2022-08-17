@@ -34,6 +34,7 @@ export const LoginForm = () => {
 
         if (email === "" || username === "" || password === "" || passwordConfirm ==="") {
             return window.alert("이름, 비밀번호를 모두 입력해주세요.")
+            
         } else if(password !== passwordConfirm){
             return window.alert("비밀번호와 비밀번호확인이 같아야 합니다.")
         }
