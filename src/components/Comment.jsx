@@ -1,6 +1,6 @@
 import { Paper, Grid, Avatar } from "@mui/material";
 
-function Comment() {
+function Comment({ comment }) {
   return (
     <Paper style={{ padding: "40px 20px" }}>
       <Grid container wrap="nowrap" spacing={2}>
@@ -11,7 +11,7 @@ function Comment() {
           />
         </Grid>
         <Grid justifyContent="left" item xs zeroMinWidth>
-          <h4 style={{ margin: 0, textAlign: "left" }}>Toss</h4>
+          <h4 style={{ margin: 0, textAlign: "left" }}>{comment.content}</h4>
           <p style={{ textAlign: "left" }}>
             문의주셔서 감사합니다. 질문에 대한 답은 이메일을 통해
             전달드렸습니다.

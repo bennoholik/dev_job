@@ -13,25 +13,25 @@ import Comment from "./Comment";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { getRecruitsData } from "../redux/modules/recruitSlice";
+import { getRecruitsData, sendComment } from "../redux/modules/recruitSlice";
 
 function JobDetail() {
   const dispatch = useDispatch();
 
   const { id } = useParams();
-  const { isLoading, error, recruits, isFinish } = useSelector(
-    (state) => state.recruits
-  );
+  const { recruits, isFinish } = useSelector((state) => state.recruits);
+
+  const [comment, setComment] = useState("");
+  const rec = recruits.find((r) => r.id === Number(id));
 
   useEffect(() => {
     dispatch(getRecruitsData());
-  }, []);
+  }, [dispatch]);
 
-  if (error) {
-    return <div>{error.message}</div>;
-  }
-
-  const rec = recruits.find((r) => r.id === Number(id));
+  const onSendComment = () => {
+    dispatch(sendComment({ id, comment }));
+    setComment("");
+  };
 
   if (isFinish) {
     return (
@@ -60,8 +60,6 @@ function JobDetail() {
           <Typography>{rec.createdAt}</Typography>
           <br />
 
-          <br />
-          <br />
           <Typography variant="body1" color="text.secondary">
             {rec.description}
           </Typography>
@@ -72,20 +70,35 @@ function JobDetail() {
             <TextField
               fullWidth
               id="fullwidth"
+              onChange={(e) => {
+                setComment(e.target.value);
+              }}
+              value={comment}
               sx={{ height: "50px" }}
               label="문의사항"
+              required
             />
           </Grid>
 
           <Grid item xs="2">
-            <Button variant="contained" sx={{ height: "50px", mx: "10px" }}>
+            <Button
+              variant="contained"
+              onClick={() => {
+                onSendComment();
+              }}
+              sx={{ height: "50px", mx: "10px" }}
+            >
               <SendIcon />
             </Button>
           </Grid>
         </Grid>
 
-        <Comment></Comment>
-        <Comment />
+        {rec.commentList.map((c) => (
+          <Comment comment={c} />
+        ))}
+        {rec.commentList.map((c) => {
+          console.log(c);
+        })}
       </Card>
     );
   }

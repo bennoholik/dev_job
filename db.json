@@ -1,26 +1,25 @@
 {
   "posts": [
     {
-      "createdAt": "2022-08-15T05:25:14.304Z",
+      "createdAt": "2022-08-15T15:45:55.975Z",
       "jobTitle": "[카카오] - 백엔드 개발자 수시채용",
-      "techStackList": [
-        "HTML5"
+      "techStackList": {
+        "stackList": [
+          "Vue"
+        ]
+      },
+      "description": "dafdas",
+      "commentList": [
+        {
+          "content": "ssss"
+        }
       ],
-      "description": "aswseraf",
       "id": 1
     },
     {
-      "createdAt": "2022-08-15T07:56:40.401Z",
-      "jobTitle": "[카카오] - 백엔드 개발자 수시채용",
-      "techStackList": [
-        "React"
-      ],
-      "description": "jkll",
-      "id": 2
-    },
-    {
-      "createdAt": "2022-08-15T09:13:33.319Z",
+      "createdAt": "2022-08-16T05:54:23.779Z",
       "jobTitle": "[네이버] - 서버 개발자",
+<<<<<<< HEAD
       "techStackList": [
         "jQuery"
       ],
@@ -78,6 +77,16 @@
       "passwordConfirm": "test1234",
       "authority": "채용자",
       "id": 9
+=======
+      "techStackList": {
+        "stackList": [
+          "Docker"
+        ]
+      },
+      "description": "ㅁㄴㅇ럄ㄴㅇㄹ ㅏㅣ;ㅁㄴㅇ ㅏ리;ㅓㅁ나ㅣ;ㅇ러ㅏㅣ;ㅁㄴㅇ",
+      "commentList": [],
+      "id": 2
+>>>>>>> c07f95768dc6a5355e185f8a0c22dc195c4b9704
     }
   ]
 }
