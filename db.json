@@ -47,6 +47,37 @@
       ],
       "description": "adfasdf",
       "id": 5
+    },
+    {
+      "createdAt": "2022-08-16T03:04:42.695Z",
+      "jobTitle": "123",
+      "techStackList": [
+        "TypeScript",
+        "Spring"
+      ],
+      "description": "",
+      "id": 6
+    },
+    {
+      "username": "testUser",
+      "password": "test1234",
+      "passwordConfirm": "test1234",
+      "authority": "채용자",
+      "id": 7
+    },
+    {
+      "username": "test4",
+      "password": "test1234",
+      "passwordConfirm": "test1234",
+      "authority": "채용자",
+      "id": 8
+    },
+    {
+      "username": "test5",
+      "password": "test1234",
+      "passwordConfirm": "test1234",
+      "authority": "채용자",
+      "id": 9
     }
   ]
 }
