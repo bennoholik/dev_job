@@ -16,7 +16,7 @@ export const getRecruitsData = createAsyncThunk(
   "recruits/getRecruitsData",
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.get("http://hosung.shop/api/v1/posts");
+      const data = await axios.get("http://hosung.shop:8080/api/v1/posts");
       console.log(data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
@@ -29,7 +29,7 @@ export const addRecruit = createAsyncThunk(
   "recruits/addRecruit",
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.post("http://hosung.shop/api/v1/auth/recruits", {
+      const data = await axios.post("http://hosung.shop:8080/api/v1/auth/recruits", {
         createdAt: payload.date,
         jobTitle: payload.title,
         techStackList: payload.stack,

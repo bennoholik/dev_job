@@ -19,8 +19,8 @@ export const getRecruitsData = createAsyncThunk(
   "recruits/getRecruitsData",
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.get("http://hosung.shop/api/v1/posts");
-
+      const data = await axios.get("http://hosung.shop:8080/api/v1/posts");
+      console.log(data.data)
       return thunkAPI.fulfillWithValue(data.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

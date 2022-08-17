@@ -22,7 +22,7 @@ export const __signIn = createAsyncThunk(
       // "http://hosung.shop/api/v1/login"
       //"https://www.reqres.in/api/login"
       const data = await axios.post(
-        "http://hosung.shop/api/v1/login",
+        "http://hosung.shop:8080/api/v1/login",
         {
           username: payload.username,
           password: payload.password,
