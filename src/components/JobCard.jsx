@@ -14,8 +14,12 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { deleteRecruit } from "../redux/modules/recruitSlice";
+import { deleteRecruit, editRecruit } from "../redux/modules/recruitSlice";
 import { getUserData } from "../storage/Cookie";
+import { useState } from "react";
+import moment from 'moment';
+import Moment from 'react-moment';
+import "moment/locale/ko";
 
 function JobCard({ rec, i }) {
   const dispatch = useDispatch();
@@ -29,6 +33,37 @@ function JobCard({ rec, i }) {
 
   const userdata = getUserData();
 
+  const id = rec.id;
+
+  //편집부분
+  const [editToggle, setEditToggle] = useState(false);
+  const [editedTitle, setEditedtitle] = useState("");
+  const [editedDesc, setEditedDesc] = useState("");
+  const [stackList, setEditedStackList] = useState([]);
+
+  const onToggleEdit = () => {
+    setEditToggle(!editToggle);
+  };
+
+  const onCancelEdit = () => {
+    setEditToggle(false);
+  };
+
+  const editedStack = { stackList };
+
+  const onFinishEdit = () => {
+    if (editedDesc === "") return;
+    dispatch(editRecruit({ id, editedTitle, editedDesc, editedStack }));
+    setEditToggle(false);
+    setEditedDesc("");
+  };
+
+  const addEditedStack = (event) => {
+    let copy = [...stackList];
+    copy.push(event.target.value);
+    setEditedStackList(copy);
+  };
+
   let userCheck;
 
   if (userdata) {
@@ -36,6 +71,26 @@ function JobCard({ rec, i }) {
   } else {
     userCheck = "";
   }
+
+  // // 게시물 작성시간
+  // const postingCreate = (postTime) => {
+  //   console.log("게시물시간")
+  //   let nowTime = Date.now();
+  //   let postStart = new Date(postTime)
+  //   console.log("parseInt계산 " , parseInt(postStart - nowTime))
+  //   if (parseInt(postStart - nowTime) > -60000){
+  //     console.log("게시물 1")
+  //     return <Moment format="방금 전">{postStart}</Moment>;
+  //   } 
+  //   if (parseInt(postStart - nowTime) < - 86400000) {
+  //     console.log("게시물 2")
+  //   return <Moment format="MMM D일">{postStart}</Moment>;
+  //   }  
+  //   if (parseInt(postTime - nowTime) > - 86400000){
+  //     console.log("게시물 3")
+  //   return <Moment fromNow>{postStart}</Moment>;
+  //   }
+  // }
 
   return (
     <Card key={rec.id}>
@@ -65,6 +120,13 @@ function JobCard({ rec, i }) {
                     >
                       <DeleteIcon fontSize="inherit" />
                     </IconButton>
+                    <Button
+                      onClick={() => {
+                        onToggleEdit();
+                      }}
+                    >
+                      Edit
+                    </Button>
                   </>
                 ) : null}
               </Grid>
@@ -86,31 +148,62 @@ function JobCard({ rec, i }) {
             {rec.description}
           </Typography>
 
-          <Typography>{rec.createdAt}</Typography>
+          {/* <Typography>{postingCreate(rec.createdAt)}</Typography> */}
+          <Typography>{moment(rec.createdAt).fromNow()}</Typography>
         </CardContent>
       </CardActionArea>
-      <TextField />
-      <TextField
-        sx={{ mt: 2, mb: 2 }}
-        fullWidth
-        label="필수스텍"
-        select
-        // value={stackList}
-        // onChange={addStack}
-        color="secondary"
-        helperText="필수스텍 하나 이상 선택하세요."
-      >
-        <MenuItem value="JavaScript">JavaScript</MenuItem>
-        <MenuItem value="TypeScript">TypeScript</MenuItem>
-        <MenuItem value="jQuery">jQuery</MenuItem>
-        <MenuItem value="Vue">Vue</MenuItem>
-        <MenuItem value="HTML5">HTML5</MenuItem>
-        <MenuItem value="React">React</MenuItem>
-        <MenuItem value="Spring">Spring</MenuItem>
-        <MenuItem value="Java">Java</MenuItem>
-        <MenuItem value="Docker">Docker</MenuItem>
-        <MenuItem value="node.js">node.js</MenuItem>
-      </TextField>
+
+      {/* 편집토글 */}
+      {editToggle === true ? (
+        <>
+          <TextField
+            label="채용 분야 제목"
+            onChange={(e) => {
+              setEditedtitle(e.target.value);
+            }}
+            value={editedTitle}
+          />
+          <TextField
+            sx={{ mt: 2, mb: 2 }}
+            fullWidth
+            label="필수스텍"
+            select
+            value={stackList}
+            onChange={addEditedStack}
+            color="secondary"
+            helperText="필수스텍 하나 이상 선택하세요."
+          >
+            <MenuItem value="JavaScript">JavaScript</MenuItem>
+            <MenuItem value="TypeScript">TypeScript</MenuItem>
+            <MenuItem value="jQuery">jQuery</MenuItem>
+            <MenuItem value="Vue">Vue</MenuItem>
+            <MenuItem value="HTML5">HTML5</MenuItem>
+            <MenuItem value="React">React</MenuItem>
+            <MenuItem value="Spring">Spring</MenuItem>
+            <MenuItem value="Java">Java</MenuItem>
+            <MenuItem value="Docker">Docker</MenuItem>
+            <MenuItem value="node.js">node.js</MenuItem>
+          </TextField>
+          <TextField
+            id="outlined-multiline-static"
+            label="상세정보"
+            onChange={(e) => {
+              setEditedDesc(e.target.value);
+            }}
+            value={editedDesc}
+            multiline
+            rows={10}
+            fullWidth
+          />
+          <Button
+            onClick={() => {
+              onFinishEdit();
+            }}
+          >
+            편집완료
+          </Button>
+        </>
+      ) : null}
     </Card>
   );
 }

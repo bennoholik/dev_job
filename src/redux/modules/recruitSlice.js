@@ -33,7 +33,7 @@ export const addRecruit = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const data = await axios.post(
-        "http://hosung.shop/api/v1/auth/recruits",
+        "http://hosung.shop:8080/api/v1/auth/recruits",
         {
           createdAt: payload.date,
           jobTitle: payload.title,
