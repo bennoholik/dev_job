@@ -28,7 +28,8 @@ function JobCard({ rec, i }) {
 
   const onDeletePost = () => {
     dispatch(deleteRecruit(rec.id));
-    window.location.href = "/";
+    navigate("/");
+    //window.location.href = "/";
   };
 
   const userdata = getUserData();
@@ -42,7 +43,7 @@ function JobCard({ rec, i }) {
   const [stackList, setEditedStackList] = useState([]);
 
   const onToggleEdit = () => {
-    setEditToggle(!editToggle);
+    setEditToggle(true);
   };
 
   const onCancelEdit = () => {
@@ -93,41 +94,44 @@ function JobCard({ rec, i }) {
   // }
 
   return (
-    <Card key={rec.id}>
+    <Card key={rec.id} sx={{ mb: "15px" }}>
       <CardActionArea component={RouterLink} to={`/${rec.id}`}>
+        {/* <CardActionArea> */}
         <CardContent sx={{ p: "20px" }}>
           <Typography gutterBottom variant="h5" component="div">
             <Grid container>
               <Grid item xs="1">
                 <Avatar alt="toss" src={rec.user.profileImageUrl} />{" "}
               </Grid>
-              <Grid item xs="10">
+              <Grid item xs="9">
                 {" "}
                 <Typography gutterBottom variant="h6" component="div">
                   [{rec.user.username}]{rec.jobTitle}
                 </Typography>
               </Grid>
-              <Grid item xs="1">
+              <Grid item xs="2">
                 {userCheck === rec.user.username ? (
-                  <>
-                    <IconButton
-                      aria-label="delete"
-                      size="large"
-                      color="warning"
-                      onClick={() => {
-                        onDeletePost();
-                      }}
-                    >
-                      <DeleteIcon fontSize="inherit" />
-                    </IconButton>
-                    <Button
-                      onClick={() => {
-                        onToggleEdit();
-                      }}
-                    >
-                      Edit
-                    </Button>
-                  </>
+                  editToggle === false ? (
+                    <>
+                      <Button
+                        color="warning"
+                        onClick={() => {
+                          onDeletePost();
+                        }}
+                      >
+                        Delete
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          onToggleEdit();
+                        }}
+                      >
+                        Edit
+                      </Button>
+                    </>
+                  ) : (
+                    <Button onClick={() => onCancelEdit()}>cancel</Button>
+                  )
                 ) : null}
               </Grid>
             </Grid>
@@ -158,6 +162,7 @@ function JobCard({ rec, i }) {
         <>
           <TextField
             label="채용 분야 제목"
+            fullWidth
             onChange={(e) => {
               setEditedtitle(e.target.value);
             }}

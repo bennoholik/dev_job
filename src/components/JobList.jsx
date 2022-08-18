@@ -31,9 +31,8 @@ function JobList() {
 
   return (
     <>
-      {recruits.map((rec, i) => (
-        <JobCard rec={rec} i={i} />
-      ))}
+      {recruits &&
+        recruits.map((recruits, i) => <JobCard rec={recruits} i={i} />)}
     </>
   );
 }

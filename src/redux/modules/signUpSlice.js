@@ -38,10 +38,11 @@ export const __signUp = createAsyncThunk(
           username: payload.username,
           password: payload.password,
           passwordConfirm: payload.passwordConfirm,
-          authority: "채용자",
+          authority: payload.authority,
         },
         { headers }
       );
+
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
