@@ -17,6 +17,9 @@ import { useDispatch } from "react-redux";
 import { deleteRecruit, editRecruit } from "../redux/modules/recruitSlice";
 import { getUserData } from "../storage/Cookie";
 import { useState } from "react";
+import moment from 'moment';
+import Moment from 'react-moment';
+import "moment/locale/ko";
 
 function JobCard({ rec, i }) {
   const dispatch = useDispatch();
@@ -69,6 +72,7 @@ function JobCard({ rec, i }) {
   } else {
     userCheck = "";
   }
+
 
   return (
     <Card key={rec.id} sx={{ mb: "15px" }}>
@@ -129,7 +133,8 @@ function JobCard({ rec, i }) {
             {rec.description}
           </Typography>
 
-          <Typography>{rec.createdAt}</Typography>
+          {/* <Typography>{postingCreate(rec.createdAt)}</Typography> */}
+          <Typography>{moment(rec.createdAt).fromNow()}</Typography>
         </CardContent>
       </CardActionArea>
 

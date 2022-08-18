@@ -19,6 +19,65 @@
     {
       "createdAt": "2022-08-16T05:54:23.779Z",
       "jobTitle": "[네이버] - 서버 개발자",
+<<<<<<< HEAD
+      "techStackList": [
+        "jQuery"
+      ],
+      "description": "adfa",
+      "id": 3
+    },
+    {
+      "createdAt": "2022-08-15T09:47:40.862Z",
+      "jobTitle": "[쿠팡] - 배달직원구함",
+      "techStackList": [
+        "TypeScript",
+        "JavaScript",
+        "React"
+      ],
+      "description": "배달 직원뽑아용",
+      "id": 4
+    },
+    {
+      "createdAt": "2022-08-15T09:50:32.965Z",
+      "jobTitle": "[카카오] - 백엔드 개발자 수시채용",
+      "techStackList": [
+        "jQuery",
+        "JavaScript"
+      ],
+      "description": "adfasdf",
+      "id": 5
+    },
+    {
+      "createdAt": "2022-08-16T03:04:42.695Z",
+      "jobTitle": "123",
+      "techStackList": [
+        "TypeScript",
+        "Spring"
+      ],
+      "description": "",
+      "id": 6
+    },
+    {
+      "username": "testUser",
+      "password": "test1234",
+      "passwordConfirm": "test1234",
+      "authority": "채용자",
+      "id": 7
+    },
+    {
+      "username": "test4",
+      "password": "test1234",
+      "passwordConfirm": "test1234",
+      "authority": "채용자",
+      "id": 8
+    },
+    {
+      "username": "test5",
+      "password": "test1234",
+      "passwordConfirm": "test1234",
+      "authority": "채용자",
+      "id": 9
+=======
       "techStackList": {
         "stackList": [
           "Docker"
@@ -27,6 +86,7 @@
       "description": "ㅁㄴㅇ럄ㄴㅇㄹ ㅏㅣ;ㅁㄴㅇ ㅏ리;ㅓㅁ나ㅣ;ㅇ러ㅏㅣ;ㅁㄴㅇ",
       "commentList": [],
       "id": 2
+>>>>>>> c07f95768dc6a5355e185f8a0c22dc195c4b9704
     }
   ]
 }
