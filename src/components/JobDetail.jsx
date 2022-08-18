@@ -16,6 +16,8 @@ import { useEffect, useState } from "react";
 import { getRecruitsData } from "../redux/modules/recruitSlice";
 import { getRecruitDetail, sendComment } from "../redux/modules/detailSlice";
 import { getUserData } from "../storage/Cookie";
+import moment from "moment";
+import "moment/locale/ko";
 
 function JobDetail() {
   const dispatch = useDispatch();
@@ -57,10 +59,7 @@ function JobDetail() {
           <Grid container>
             <Grid item xs="1.5">
               {" "}
-              <Avatar
-                alt="toss"
-                src="https://play-lh.googleusercontent.com/oPjTaNy7bQEoq8B7iMr7qbWfHuTGp3l4F5dfQ74YOwSf5Lxul9hUYS8nmIRiVVsUHfYc=w480-h960-rw"
-              />{" "}
+              <Avatar alt="toss" src={recDetail.user.profileImageUrl} />{" "}
             </Grid>
             <Grid>
               {" "}
@@ -71,7 +70,7 @@ function JobDetail() {
           </Grid>
 
           <br />
-          <Typography>{recDetail.createdAt}</Typography>
+          <Typography>{moment(recDetail.updatedAt).fromNow()}</Typography>
           <br />
 
           <Typography variant="body1" color="text.secondary">

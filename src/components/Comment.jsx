@@ -8,6 +8,8 @@ import {
 } from "../redux/modules/detailSlice";
 import { getUserData } from "../storage/Cookie";
 import Reply from "./Reply";
+import moment from "moment";
+import "moment/locale/ko";
 
 function Comment({ comment, postId, recDetail }) {
   const dispatch = useDispatch();
@@ -81,7 +83,7 @@ function Comment({ comment, postId, recDetail }) {
           )}
 
           <p style={{ textAlign: "left", color: "gray" }}>
-            {comment.createdAt}
+            {moment(comment.updatedAt).fromNow()}
           </p>
 
           {userCheck === comment.user.username ? (
