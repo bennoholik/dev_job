@@ -26,7 +26,7 @@ export const __signUp = createAsyncThunk(
       // "http://hosung.shop/api/v1/signup"
       console.log(payload);
       const data = await axios.post(
-        "http://hosung.shop:8080/api/v1/signup",
+        "https://hosung.shop/api/v1/signup",
         {
           // "username":"hanghae5",
           // "password":"hanghae5",

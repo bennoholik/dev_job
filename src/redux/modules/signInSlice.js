@@ -23,7 +23,7 @@ export const __signIn = createAsyncThunk(
       // "http://hosung.shop/api/v1/login"
       //"https://www.reqres.in/api/login"
       const data = await axios.post(
-        "http://hosung.shop:8080/api/v1/login",
+        "https://hosung.shop/api/v1/login",
         {
           username: payload.username,
           password: payload.password,
@@ -36,7 +36,7 @@ export const __signIn = createAsyncThunk(
         "Authorization"
       ] = `${data.headers.authorization}`;
 
-      document.location.href = '/';
+      document.location.href = "/";
       // window.location.href = "/";
 
       return thunkAPI.fulfillWithValue(data.data.data);
