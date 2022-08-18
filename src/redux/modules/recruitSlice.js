@@ -19,7 +19,7 @@ export const getRecruitsData = createAsyncThunk(
   "recruits/getRecruitsData",
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.get("http://hosung.shop:8080/api/v1/posts");
+      const data = await axios.get("https://hosung.shop/api/v1/posts");
 
       return thunkAPI.fulfillWithValue(data.data.data);
     } catch (error) {
@@ -33,7 +33,7 @@ export const addRecruit = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const data = await axios.post(
-        "http://hosung.shop:8080/api/v1/auth/recruits",
+        "https://hosung.shop/api/v1/auth/recruits",
         {
           createdAt: payload.date,
           jobTitle: payload.title,
@@ -74,7 +74,7 @@ export const deleteRecruit = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const data = await axios.delete(
-        `http://hosung.shop/api/v1/auth/recruits/${payload}`,
+        `https://hosung.shop/api/v1/auth/recruits/${payload}`,
         { headers: { authorization: usertoken } }
       );
       const response = { id: payload, msg: data.data };
@@ -92,7 +92,7 @@ export const editRecruit = createAsyncThunk(
     console.log(payload);
     try {
       const data = await axios.put(
-        `http://hosung.shop:8080/api/v1/auth/recruits/${payload.id}`,
+        `https://hosung.shop/api/v1/auth/recruits/${payload.id}`,
         {
           jobTitle: payload.editedTitle,
           techStackList: payload.editedStack,

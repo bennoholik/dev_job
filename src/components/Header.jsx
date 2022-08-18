@@ -47,7 +47,7 @@ function Header() {
                   underliine: "none",
                 }}
               >
-                DevJob
+                Dev/Job
               </Link>
             </Typography>
 
