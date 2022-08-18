@@ -14,39 +14,52 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getRecruitsData } from "../redux/modules/recruitSlice";
+import { getRecruitDetail, sendComment } from "../redux/modules/detailSlice";
+import { getUserData } from "../storage/Cookie";
+import moment from "moment";
+import "moment/locale/ko";
 
 function JobDetail() {
   const dispatch = useDispatch();
 
   const { id } = useParams();
-  const { isLoading, error, recruits, isFinish } = useSelector(
-    (state) => state.recruits
-  );
+  const { recDetail, isFinish } = useSelector((state) => state.recDetail);
+
+  const [comment, setComment] = useState("");
+  // const rec = recruits.find((r) => r.id === Number(id));
 
   useEffect(() => {
-    dispatch(getRecruitsData());
-  }, []);
+    dispatch(getRecruitDetail(Number(id)));
+  }, [dispatch, id]);
 
-  if (error) {
-    return <div>{error.message}</div>;
+  const onSendComment = () => {
+    const data = {
+      pid: Number(id),
+      content: comment,
+    };
+    dispatch(sendComment(data));
+  };
+
+  const userdata = getUserData();
+  let userCheck;
+
+  if (userdata) {
+    userCheck = userdata.authority;
+  } else {
+    userCheck = "";
   }
-
-  const rec = recruits.find((r) => r.id === Number(id));
 
   if (isFinish) {
     return (
       <Card sx={{ maxWidth: 800 }}>
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            {rec.jobTitle}
+            {recDetail.jobTitle}
           </Typography>
           <Grid container>
             <Grid item xs="1.5">
               {" "}
-              <Avatar
-                alt="toss"
-                src="https://play-lh.googleusercontent.com/oPjTaNy7bQEoq8B7iMr7qbWfHuTGp3l4F5dfQ74YOwSf5Lxul9hUYS8nmIRiVVsUHfYc=w480-h960-rw"
-              />{" "}
+              <Avatar alt="toss" src={recDetail.user.profileImageUrl} />{" "}
             </Grid>
             <Grid>
               {" "}
@@ -57,35 +70,51 @@ function JobDetail() {
           </Grid>
 
           <br />
-          <Typography>{rec.createdAt}</Typography>
+          <Typography>{moment(recDetail.updatedAt).fromNow()}</Typography>
           <br />
 
-          <br />
-          <br />
           <Typography variant="body1" color="text.secondary">
-            {rec.description}
+            {recDetail.description}
           </Typography>
         </CardContent>
 
-        <Grid container sx={{ px: "10px", my: "10px" }}>
-          <Grid item xs="9.5">
-            <TextField
-              fullWidth
-              id="fullwidth"
-              sx={{ height: "50px" }}
-              label="문의사항"
-            />
-          </Grid>
+        {userCheck === "ROLE_JOB_SEEKER" ? (
+          <Grid container sx={{ px: "10px", my: "10px" }}>
+            <Grid item xs="9.5">
+              <TextField
+                fullWidth
+                id="fullwidth"
+                onChange={(e) => {
+                  setComment(e.target.value);
+                }}
+                value={comment}
+                sx={{ height: "50px" }}
+                label="문의사항"
+                required
+              />
+            </Grid>
 
-          <Grid item xs="2">
-            <Button variant="contained" sx={{ height: "50px", mx: "10px" }}>
-              <SendIcon />
-            </Button>
+            <Grid item xs="2">
+              <Button
+                variant="contained"
+                onClick={() => {
+                  onSendComment();
+                }}
+                sx={{ height: "50px", mx: "10px" }}
+              >
+                <SendIcon />
+              </Button>
+            </Grid>
           </Grid>
-        </Grid>
+        ) : null}
 
-        <Comment></Comment>
-        <Comment />
+        {recDetail.commentList &&
+          recDetail.commentList.map((c) => (
+            <Comment comment={c} recDetail={recDetail} postId={Number(id)} />
+          ))}
+        {/* {recDetail.commentList.map((c) => {
+          console.log(c);
+        })} */}
       </Card>
     );
   }

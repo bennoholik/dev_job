@@ -20,14 +20,19 @@ function JobList() {
   }
 
   if (error) {
-    return <div>{error.message}</div>;
+    return (
+      <div>
+        <h1>{error.message} : 서버에서 정보를 불러들일수 없습니다</h1>
+      </div>
+    );
   }
+
+  console.log(recruits);
 
   return (
     <>
-      {recruits.map((rec, i) => (
-        <JobCard rec={rec} i={i} />
-      ))}
+      {recruits &&
+        recruits.map((recruits, i) => <JobCard rec={recruits} i={i} />)}
     </>
   );
 }
