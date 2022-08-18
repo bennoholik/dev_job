@@ -112,6 +112,46 @@ export const sendReply = createAsyncThunk(
   }
 );
 
+export const deleteReply = createAsyncThunk(
+  "recruits/deleteReply",
+  async (payload, thunkAPI) => {
+    console.log(payload);
+
+    try {
+      const data = await axios.delete(
+        `http://hosung.shop/api/v1/auth/recruits/comments/${payload.commentId}`,
+        {
+          headers: { authorization: usertoken },
+          data: { recommentId: payload.recommentId },
+        }
+      );
+      const response = { id: payload.commentId, datas: data.data.data };
+      return thunkAPI.fulfillWithValue(response);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const editReply = createAsyncThunk(
+  "recruits/editReply",
+  async (payload, thunkAPI) => {
+    try {
+      const data = await axios.put(
+        `http://hosung.shop/api/v1/auth/recruits/comments/${payload.commentId}`,
+        { recommentId: payload.recommentId, content: payload.editedContent },
+        {
+          headers: { authorization: usertoken },
+        }
+      );
+      const response = { id: payload.commentId, datas: data.data.data };
+      return thunkAPI.fulfillWithValue(response);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const detailSlice = createSlice({
   name: "recDetail",
   initialState,
@@ -175,26 +215,18 @@ export const detailSlice = createSlice({
     },
     [sendReply.fulfilled]: (state, action) => {
       console.log(action.payload);
-      // const commentdata = {
-      //   content: action.payload.content,
-      //   createdAt: action.payload.createdAt,
-      //   id: action.payload.id,
-      //   username: action.payload.username,
-
-      //   // profileImageUrl: action.payload.profileImageUrl,
-      // };
       return {
         ...state,
         recDetail: {
           ...state.recDetail,
           commentList:
             state.recDetail.commentList &&
-            state.recDetail.commentList.map((rec) =>
+            state.recDetail.commentList.map((rec, i) =>
               rec.id === action.payload.id
                 ? {
                     ...rec,
                     recommentList: [
-                      // ...state.recDetail.commentList[].recommentList,
+                      ...state.recDetail.commentList[i].recommentList,
                       action.payload.datas,
                     ],
                   }
@@ -202,8 +234,60 @@ export const detailSlice = createSlice({
             ),
         },
       };
+    },
 
-      // state.recDetail.commentList.push(commentdata);
+    [deleteReply.fulfilled]: (state, action) => {
+      console.log(action.payload.datas.id);
+      return {
+        ...state,
+        recDetail: {
+          ...state.recDetail,
+          commentList:
+            state.recDetail.commentList &&
+            state.recDetail.commentList.map((rec, i) =>
+              rec.id === action.payload.id
+                ? {
+                    ...rec,
+                    recommentList: state.recDetail.commentList[
+                      i
+                    ].recommentList.filter(
+                      // console.log(rec.id)
+                      (del) => del.id !== action.payload.datas.id
+                    ),
+                  }
+                : rec
+            ),
+        },
+      };
+    },
+
+    [editReply.fulfilled]: (state, action) => {
+      console.log(action.payload);
+      return {
+        ...state,
+        recDetail: {
+          ...state.recDetail,
+          commentList:
+            state.recDetail.commentList &&
+            state.recDetail.commentList.map((rec, i) =>
+              rec.id === action.payload.id
+                ? {
+                    ...rec,
+                    recommentList: state.recDetail.commentList[
+                      i
+                    ].recommentList.map((e) =>
+                      e.id === action.payload.datas.id
+                        ? {
+                            ...e,
+                            content: action.payload.datas.content,
+                          }
+                        : e
+                    ),
+                  }
+                : rec
+            ),
+        },
+      };
     },
   },
 });

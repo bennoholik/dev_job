@@ -1,3 +1,4 @@
+import { WindowOutlined } from "@mui/icons-material";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { setAccessToken, setUserData } from "../../storage/Cookie";
@@ -34,7 +35,10 @@ export const __signIn = createAsyncThunk(
       axios.defaults.headers.common[
         "Authorization"
       ] = `${data.headers.authorization}`;
+
       document.location.href = '/';
+      // window.location.href = "/";
+
       return thunkAPI.fulfillWithValue(data.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
