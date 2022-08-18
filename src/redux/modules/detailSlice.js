@@ -19,7 +19,7 @@ export const getRecruitDetail = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const data = await axios.get(
-        `http://hosung.shop/api/v1/posts/${payload}`
+        `https://hosung.shop/api/v1/posts/${payload}`
       );
       console.log(data.data.data);
 
@@ -35,7 +35,7 @@ export const sendComment = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const data = await axios.post(
-        `http://hosung.shop/api/v1/auth/recruits/${payload.pid}/comments`,
+        `https://hosung.shop/api/v1/auth/recruits/${payload.pid}/comments`,
         {
           content: payload.content,
         },
@@ -56,7 +56,7 @@ export const deleteComment = createAsyncThunk(
 
     try {
       const data = await axios.delete(
-        `http://hosung.shop/api/v1/auth/recruits/${payload.postid}/comments`,
+        `https://hosung.shop/api/v1/auth/recruits/${payload.postid}/comments`,
         {
           headers: { authorization: usertoken },
           data: { commentId: payload.commentId },
@@ -97,7 +97,7 @@ export const sendReply = createAsyncThunk(
     console.log(payload);
     try {
       const data = await axios.post(
-        `http://hosung.shop/api/v1/auth/recruits/comments/${payload.commentId}`,
+        `https://hosung.shop/api/v1/auth/recruits/comments/${payload.commentId}`,
         {
           content: payload.replyContent,
         },
@@ -119,7 +119,7 @@ export const deleteReply = createAsyncThunk(
 
     try {
       const data = await axios.delete(
-        `http://hosung.shop/api/v1/auth/recruits/comments/${payload.commentId}`,
+        `https://hosung.shop/api/v1/auth/recruits/comments/${payload.commentId}`,
         {
           headers: { authorization: usertoken },
           data: { recommentId: payload.recommentId },
@@ -138,7 +138,7 @@ export const editReply = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const data = await axios.put(
-        `http://hosung.shop/api/v1/auth/recruits/comments/${payload.commentId}`,
+        `https://hosung.shop/api/v1/auth/recruits/comments/${payload.commentId}`,
         { recommentId: payload.recommentId, content: payload.editedContent },
         {
           headers: { authorization: usertoken },

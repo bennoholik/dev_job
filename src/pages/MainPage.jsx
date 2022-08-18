@@ -13,7 +13,7 @@ function Mainpage() {
     <div style={{ backgroundColor: "#eee" }}>
       <Container
         maxWidth="xl"
-        style={{ backgroundColor: "white", height: "100vh" }}
+        style={{ backgroundColor: "white", height: "100%" }}
       >
         <Header />
         <IntroContainer></IntroContainer>
