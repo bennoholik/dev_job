@@ -20,6 +20,7 @@ function Reply({ recomment, userCheck, comment }) {
   const onEditReply = () => {
     dispatch(editReply(replydata));
     setReplyEditToggle(false);
+    setReplyEditedComment("");
   };
 
   return (

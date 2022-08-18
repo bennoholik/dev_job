@@ -38,6 +38,7 @@ function JobDetail() {
       content: comment,
     };
     dispatch(sendComment(data));
+    setComment("");
   };
 
   const userdata = getUserData();

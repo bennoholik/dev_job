@@ -77,7 +77,7 @@ export const editComment = createAsyncThunk(
 
     try {
       const data = await axios.put(
-        `http://hosung.shop/api/v1/auth/recruits/${payload.postid}/comments`,
+        `https://hosung.shop/api/v1/auth/recruits/${payload.postid}/comments`,
         { commentId: payload.commentId, content: payload.content },
         {
           headers: { authorization: usertoken },
