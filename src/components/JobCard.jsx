@@ -56,6 +56,7 @@ function JobCard({ rec, i }) {
     dispatch(editRecruit({ id, editedTitle, editedDesc, editedStack }));
     setEditToggle(false);
     setEditedDesc("");
+    setEditedtitle("");
   };
 
   const addEditedStack = (event) => {
