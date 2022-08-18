@@ -125,7 +125,7 @@ function Comment({ comment, postId, recDetail }) {
 
           {comment.recommentList &&
             comment.recommentList.map((r) => (
-              <Reply recomment={r} comment={comment} />
+              <Reply recomment={r} comment={comment} userCheck={userCheck} />
             ))}
         </Grid>
       </Grid>
