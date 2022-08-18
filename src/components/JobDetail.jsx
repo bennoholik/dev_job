@@ -13,32 +13,46 @@ import Comment from "./Comment";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { getRecruitsData, sendComment } from "../redux/modules/recruitSlice";
+import { getRecruitsData } from "../redux/modules/recruitSlice";
+import { getRecruitDetail, sendComment } from "../redux/modules/detailSlice";
+import { getUserData } from "../storage/Cookie";
 
 function JobDetail() {
   const dispatch = useDispatch();
 
   const { id } = useParams();
-  const { recruits, isFinish } = useSelector((state) => state.recruits);
+  const { recDetail, isFinish } = useSelector((state) => state.recDetail);
 
   const [comment, setComment] = useState("");
-  const rec = recruits.find((r) => r.id === Number(id));
+  // const rec = recruits.find((r) => r.id === Number(id));
 
   useEffect(() => {
-    dispatch(getRecruitsData());
-  }, [dispatch]);
+    dispatch(getRecruitDetail(Number(id)));
+  }, [dispatch, id]);
 
   const onSendComment = () => {
-    dispatch(sendComment({ id, comment }));
-    setComment("");
+    const data = {
+      pid: Number(id),
+      content: comment,
+    };
+    dispatch(sendComment(data));
   };
+
+  const userdata = getUserData();
+  let userCheck;
+
+  if (userdata) {
+    userCheck = userdata.authority;
+  } else {
+    userCheck = "";
+  }
 
   if (isFinish) {
     return (
       <Card sx={{ maxWidth: 800 }}>
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            {rec.jobTitle}
+            {recDetail.jobTitle}
           </Typography>
           <Grid container>
             <Grid item xs="1.5">
@@ -57,48 +71,51 @@ function JobDetail() {
           </Grid>
 
           <br />
-          <Typography>{rec.createdAt}</Typography>
+          <Typography>{recDetail.createdAt}</Typography>
           <br />
 
           <Typography variant="body1" color="text.secondary">
-            {rec.description}
+            {recDetail.description}
           </Typography>
         </CardContent>
 
-        <Grid container sx={{ px: "10px", my: "10px" }}>
-          <Grid item xs="9.5">
-            <TextField
-              fullWidth
-              id="fullwidth"
-              onChange={(e) => {
-                setComment(e.target.value);
-              }}
-              value={comment}
-              sx={{ height: "50px" }}
-              label="문의사항"
-              required
-            />
-          </Grid>
+        {userCheck === "ROLE_JOB_SEEKER" ? (
+          <Grid container sx={{ px: "10px", my: "10px" }}>
+            <Grid item xs="9.5">
+              <TextField
+                fullWidth
+                id="fullwidth"
+                onChange={(e) => {
+                  setComment(e.target.value);
+                }}
+                value={comment}
+                sx={{ height: "50px" }}
+                label="문의사항"
+                required
+              />
+            </Grid>
 
-          <Grid item xs="2">
-            <Button
-              variant="contained"
-              onClick={() => {
-                onSendComment();
-              }}
-              sx={{ height: "50px", mx: "10px" }}
-            >
-              <SendIcon />
-            </Button>
+            <Grid item xs="2">
+              <Button
+                variant="contained"
+                onClick={() => {
+                  onSendComment();
+                }}
+                sx={{ height: "50px", mx: "10px" }}
+              >
+                <SendIcon />
+              </Button>
+            </Grid>
           </Grid>
-        </Grid>
+        ) : null}
 
-        {rec.commentList.map((c) => (
-          <Comment comment={c} />
-        ))}
-        {rec.commentList.map((c) => {
+        {recDetail.commentList &&
+          recDetail.commentList.map((c) => (
+            <Comment comment={c} recDetail={recDetail} postId={Number(id)} />
+          ))}
+        {/* {recDetail.commentList.map((c) => {
           console.log(c);
-        })}
+        })} */}
       </Card>
     );
   }

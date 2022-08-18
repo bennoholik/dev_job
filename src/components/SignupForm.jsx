@@ -12,6 +12,10 @@ import {
   TextField,
   Box,
   Grid,
+  FormControl,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
 } from "@mui/material";
 
 export const LoginForm = () => {
@@ -59,12 +63,8 @@ export const LoginForm = () => {
   };
 
   const checkOnlyOne = (checkThis) => {
-    const checkboxes = document.getElementsByName("test");
-    for (let i = 0; i < checkboxes.length; i++) {
-      if (checkboxes[i] !== checkThis) {
-        checkboxes[i].checked = false;
-      }
-    }
+    console.log(checkThis);
+    setAuthority(checkThis);
   };
 
   return (
@@ -127,22 +127,28 @@ export const LoginForm = () => {
           required
           fullWidth
         />
-        <div>
-          <input
-            type="checkbox"
-            name="test"
-            value="구직자"
-            onChange={(e) => checkOnlyOne(e.target)}
-          />{" "}
-          구직자
-          <input
-            type="checkbox"
-            name="test"
-            value="채용자"
-            onChange={(e) => checkOnlyOne(e.target)}
-          />{" "}
-          채용자
-        </div>
+
+        <FormControl>
+          <RadioGroup
+            row
+            aria-labelledby="demo-row-radio-buttons-group-label"
+            name="row-radio-buttons-group"
+          >
+            <FormControlLabel
+              value="구직자"
+              control={<Radio />}
+              label="구직자"
+              onChange={(e) => checkOnlyOne(e.target.value)}
+            />
+            <FormControlLabel
+              value="채용자"
+              control={<Radio />}
+              label="채용자"
+              onChange={(e) => checkOnlyOne(e.target.value)}
+            />
+          </RadioGroup>
+        </FormControl>
+
         <TextField
           margin="normal"
           label="Password"

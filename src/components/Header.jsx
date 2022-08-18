@@ -25,6 +25,14 @@ function Header() {
     window.location.href = "/";
   };
 
+  let userCheck;
+
+  if (userdata) {
+    userCheck = userdata;
+  } else {
+    userCheck = "";
+  }
+
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
@@ -45,7 +53,7 @@ function Header() {
 
             {cookie ? (
               <>
-                <Typography>{userdata.username}님 안녕하세요!</Typography>
+                <Typography>{userCheck.username}님 안녕하세요!</Typography>
                 <Button
                   color="inherit"
                   onClick={() => {
@@ -69,19 +77,22 @@ function Header() {
                 </Link>
               </Button>
             )}
-
-            <Button color="inherit" variant="outlined">
-              <Link
-                to="/recruit"
-                style={{
-                  color: "inherit",
-                  textDecoration: "none",
-                  underliine: "none",
-                }}
-              >
-                채용공고올리기
-              </Link>
-            </Button>
+            {userCheck.authority === "ROLE_RECRUITER" ? (
+              <>
+                <Button color="inherit" variant="outlined">
+                  <Link
+                    to="/recruit"
+                    style={{
+                      color: "inherit",
+                      textDecoration: "none",
+                      underliine: "none",
+                    }}
+                  >
+                    채용공고올리기
+                  </Link>
+                </Button>
+              </>
+            ) : null}
           </Toolbar>
         </AppBar>
       </Box>

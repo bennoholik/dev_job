@@ -50,6 +50,25 @@ export const addRecruit = createAsyncThunk(
   }
 );
 
+// export const deleteRecruit = createAsyncThunk(
+//   "recruits/deleteRecruit",
+//   async (payload, thunkAPI) => {
+//     try {
+//       const data = await axios.delete(
+//         `http://hosung.shop/api/v1/auth/recruits/${payload}`,
+//         { headers: { authorization: usertoken } }
+//       );
+//       console.log(payload);
+//       console.log(data.data);
+//       const response = { id: payload, msg: data.data };
+//       return thunkAPI.fulfillWithValue(data.data);
+//     } catch (error) {
+//       console.log(error);
+//       alert(error);
+//     }
+//   }
+// );
+
 export const deleteRecruit = createAsyncThunk(
   "recruits/deleteRecruit",
   async (payload, thunkAPI) => {
@@ -58,16 +77,17 @@ export const deleteRecruit = createAsyncThunk(
         `http://hosung.shop/api/v1/auth/recruits/${payload}`,
         { headers: { authorization: usertoken } }
       );
-      console.log(data.data);
-      return thunkAPI.fulfillWithValue(data.data);
+      const response = { id: payload, msg: data.data };
+
+      return thunkAPI.fulfillWithValue(response);
     } catch (error) {
-      console.log(error);
+      return thunkAPI.rejectWithValue(error);
     }
   }
 );
 
 export const editRecruit = createAsyncThunk(
-  "recruits/deleteRecruit",
+  "recruits/editRecruit",
   async (payload, thunkAPI) => {
     console.log(payload);
     try {
@@ -80,28 +100,11 @@ export const editRecruit = createAsyncThunk(
         },
         { headers: { authorization: usertoken } }
       );
-      console.log(data.data);
+
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       console.log(error);
       alert(error);
-    }
-  }
-);
-
-export const sendComment = createAsyncThunk(
-  "recruits/sendComment",
-  async (payload, thunkAPI) => {
-    try {
-      const data = await axios.patch(
-        `http://localhost:3001/posts/${payload.id}`,
-        {
-          commentList: [{ content: payload.comment }],
-        }
-      );
-      return thunkAPI.fulfillWithValue({ id: payload.id, response: data.data });
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
     }
   }
 );
@@ -119,7 +122,6 @@ export const recruitSlice = createSlice({
       state.isLoading = false;
       state.isFinish = true;
       state.recruits = action.payload;
-      console.log(action.payload);
     },
     [getRecruitsData.rejected]: (state, action) => {
       state.isLoading = false;
@@ -129,19 +131,25 @@ export const recruitSlice = createSlice({
     [addRecruit.fulfilled]: (state, action) => {
       state.recruits.push(action.payload);
     },
-    [sendComment.fulfilled]: (state, action) => {
-      console.log(action.payload);
+    [deleteRecruit.fulfilled]: (state, action) => {
       return {
         ...state,
-        recruits: state.recruits.map((r) =>
-          r.id === action.payload.id
+        recruits: state.recruits.filter((rec) => rec.id !== action.payload.id),
+      };
+    },
+    [editRecruit.fulfilled]: (state, action) => {
+      return {
+        ...state,
+        recruits: state.recruits.map((rec) =>
+          rec.id === action.payload.data.id
             ? {
-                ...r,
-                commentList: [
-                  { content: action.payload.commentList[0].content },
-                ],
+                ...rec,
+                jobTitle: action.payload.data.jobTitle,
+                description: action.payload.data.description,
+                createdAt: action.payload.data.updatedAt,
+                stackList: action.payload.data.stackList,
               }
-            : r
+            : rec
         ),
       };
     },
