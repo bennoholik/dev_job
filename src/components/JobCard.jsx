@@ -73,25 +73,6 @@ function JobCard({ rec, i }) {
     userCheck = "";
   }
 
-  // // 게시물 작성시간
-  // const postingCreate = (postTime) => {
-  //   console.log("게시물시간")
-  //   let nowTime = Date.now();
-  //   let postStart = new Date(postTime)
-  //   console.log("parseInt계산 " , parseInt(postStart - nowTime))
-  //   if (parseInt(postStart - nowTime) > -60000){
-  //     console.log("게시물 1")
-  //     return <Moment format="방금 전">{postStart}</Moment>;
-  //   } 
-  //   if (parseInt(postStart - nowTime) < - 86400000) {
-  //     console.log("게시물 2")
-  //   return <Moment format="MMM D일">{postStart}</Moment>;
-  //   }  
-  //   if (parseInt(postTime - nowTime) > - 86400000){
-  //     console.log("게시물 3")
-  //   return <Moment fromNow>{postStart}</Moment>;
-  //   }
-  // }
 
   return (
     <Card key={rec.id} sx={{ mb: "15px" }}>

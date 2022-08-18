@@ -31,7 +31,6 @@ export const LoginForm = () => {
         })
       );
       navigate("/");
-      // window.location.replace("/");
     } catch (err) {
       navigate("signin");
       window.alert("아이디 또는 비밀번호를 확인해주세요.");

@@ -34,7 +34,7 @@ export const __signIn = createAsyncThunk(
       axios.defaults.headers.common[
         "Authorization"
       ] = `${data.headers.authorization}`;
-
+      document.location.href = '/';
       return thunkAPI.fulfillWithValue(data.data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
